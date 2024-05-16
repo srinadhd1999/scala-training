@@ -1,2 +1,0 @@
-sample file to test the git
-add some content
