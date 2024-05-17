@@ -5,6 +5,15 @@ class Organisation {
     val payEmpBuffer: ArrayBuffer[(Int, String, String, String)] = ArrayBuffer()
     val marEmpBuffer: ArrayBuffer[(Int, String, String, String)] = ArrayBuffer()
     val advEmpBuffer: ArrayBuffer[(Int, String, String, String)] = ArrayBuffer()
+    val salesEmpBuffer: ArrayBuffer[(Int, String, String, String)] = ArrayBuffer()
+    val salesManBuffer: ArrayBuffer[(Int, String, String, String)] = ArrayBuffer()
+
+    def returnString(empTuple: (Int, String, String, String)): String = {
+        val sno = empTuple(0)
+        val name = empTuple(1)
+        val city = empTuple(2)
+        return s"($sno, $name, $city)"
+    }
 
     def deptFinder(empTuple: (Int, String, String, String)): Unit = {
         if(empTuple(3) == "Payments") {
@@ -16,6 +25,12 @@ class Organisation {
         else if(empTuple(3) == "Advertisements") {
             this.advEmpBuffer.append(empTuple)
         }
+        else if(empTuple(3) == "Sales") {
+            this.salesEmpBuffer.append(empTuple)
+        }
+        else if(empTuple(3) == "SalesManagement") {
+            this.salesManBuffer.append(empTuple)
+        }
     }
 
     def printOrgChart(): Unit = {
@@ -23,20 +38,28 @@ class Organisation {
         println("|__ Finance")
         println("   |__ Payments")
         for(i <- 0 until this.payEmpBuffer.length) {
-        println("   |   |__ "+this.payEmpBuffer(i))
+        println("   |   |__ "+this.returnString(this.payEmpBuffer(i)))
         }
         println("   |")
         println("   |__ Sales")
         println("       |__ Marketing")
         for(i <- 0 until this.marEmpBuffer.length) {
-        println("       |   |__ "+this.marEmpBuffer(i))  
+        println("       |   |__ "+this.returnString(this.marEmpBuffer(i)))  
+        }
+        println("       |")
+        for(i <- 0 until this.salesEmpBuffer.length) {
+        println("       |__ "+this.returnString(this.salesEmpBuffer(i)))  
         }
         println("       |")
         println("       |__ Advertisements")
         for(i <- 0 until this.advEmpBuffer.length) {
-        println("       |   |__ "+this.advEmpBuffer(i))  
+        println("       |   |__ "+this.returnString(this.advEmpBuffer(i)))  
         }
         println("       |")
+        println("       |__ Sales Management")
+        for(i <- 0 until this.salesManBuffer.length) {
+        println("       |   |__ "+this.returnString(this.salesManBuffer(i)))  
+        }
     }
 }
 
