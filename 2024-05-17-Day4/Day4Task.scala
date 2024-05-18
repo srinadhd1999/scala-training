@@ -1,5 +1,6 @@
 import scala.io.Source
 import scala.collection.mutable.ListBuffer
+import scala.io.StdIn._
 
 case class EmployeeDetails(sno: Int, name: String, country: String, salary: Int, department: String) 
 
@@ -24,14 +25,18 @@ case class EmployeeDetails(sno: Int, name: String, country: String, salary: Int,
     println()
     empList.foreach(println)
     println()
+    println("Please enter the salary to filter")
+    val filterSalary = readInt()
     println("=============== Filtering of data based on salary ==============")
     println()   
-    val salaryGreaterFilter = empList.filter(x => x(3) > 60000)
+    val salaryGreaterFilter = empList.filter(x => x(3) > filterSalary)
     salaryGreaterFilter.foreach(println)
     println()
     println("============== Filtering of data based on departmemt using EmployeeDetails object ===================")
     println()
-     val departmentFilter = empObjList.filter(x => x.department == "HR")
+    println("Please enter the department to filter")
+    val filterDepartment = readLine()
+     val departmentFilter = empObjList.filter(x => x.department == filterDepartment)
     departmentFilter.foreach(println)
     println()
     println("============== Formattted report ===================")
