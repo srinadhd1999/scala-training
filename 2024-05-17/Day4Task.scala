@@ -1,12 +1,7 @@
 import scala.io.Source
 import scala.collection.mutable.ListBuffer
 
-case class EmployeeDetails(sno: Int, name: String, country: String, salary: Int, department: String) {
-
-    def formattedReport(): Unit = {
-        println(this.sno + "     " + this.name  + "    " + this.country + "    " + this.salary + "    " + this.department)
-    }
-}
+case class EmployeeDetails(sno: Int, name: String, country: String, salary: Int, department: String) 
 
 @main def scalaCsvTask() = {
 
