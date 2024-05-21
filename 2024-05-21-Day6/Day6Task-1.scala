@@ -38,7 +38,7 @@ def mapDeptAndEmpThread(empObjList: ListBuffer[EmployeesThreaded]): Unit = {
     for(emp <- empObjList) {
         pool.submit(new Runnable {
             def run(): Unit = {
-                // populateEmployeeTable(emp, deptMap.getOrElse(emp.department, -1), connection, statement)
+                populateThreadedEmployeeTable(emp, deptMap.getOrElse(emp.department, -1), connection, statement)
             }
         })
         if(empThreadDeptMap.contains(emp.department)) {
@@ -49,6 +49,7 @@ def mapDeptAndEmpThread(empObjList: ListBuffer[EmployeesThreaded]): Unit = {
         record = record + 1
     }
     pool.shutdown()
+    pool.awaitTermination(Long.MaxValue, TimeUnit.NANOSECONDS)
     connection.close()
     statement.close()
 }
