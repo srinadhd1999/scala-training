@@ -51,9 +51,9 @@ def mapDeptAndEmpThread(empObjList: ListBuffer[EmployeesThreaded]): Unit = {
         }
         pool.shutdown()
         pool.awaitTermination(Long.MaxValue, TimeUnit.NANOSECONDS)
-        } catch {
-            case e: Exception => println(s"Exception occurred: $e")
-        } finally {
+    } catch {
+        case e: Exception => println(s"Exception occurred: $e")
+    } finally {
         connection.close()
         statement.close()
     }
