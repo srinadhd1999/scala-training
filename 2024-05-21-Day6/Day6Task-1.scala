@@ -24,34 +24,39 @@ def getDbConnection: Connection = {
 def mapDeptAndEmpThread(empObjList: ListBuffer[EmployeesThreaded]): Unit = {
     val connection: Connection = getDbConnection
     val statement: Statement = connection.createStatement()
-    var deptMap: Map[String, Int] = Map[String, Int]()
-    var id=1
-    var record = 1
-    for(emp <- empObjList) {
-        if(!deptMap.contains(emp.department)) {
-            deptMap += (emp.department -> id)
-            // populateDepartmentsTable(id, emp.department, connection, statement)
-            id = id + 1
-        }
-    }
-    val pool: ExecutorService = Executors.newFixedThreadPool(5)
-    for(emp <- empObjList) {
-        pool.submit(new Runnable {
-            def run(): Unit = {
-                populateThreadedEmployeeTable(emp, deptMap.getOrElse(emp.department, -1), connection, statement)
+    try {
+        var deptMap: Map[String, Int] = Map[String, Int]()
+        var id=1
+        var record = 1
+        for(emp <- empObjList) {
+            if(!deptMap.contains(emp.department)) {
+                deptMap += (emp.department -> id)
+                // populateDepartmentsTable(id, emp.department, connection, statement)
+                id = id + 1
             }
-        })
-        if(empThreadDeptMap.contains(emp.department)) {
-            empThreadDeptMap.get(emp.department).foreach(_.append((emp.sno, emp.name, emp.city, emp.salary, emp.department)))
-        } else {
-            empThreadDeptMap += (emp.department -> mutable.ListBuffer((emp.sno, emp.name, emp.city, emp.salary, emp.department)))
         }
-        record = record + 1
+        val pool: ExecutorService = Executors.newFixedThreadPool(5)
+        for(emp <- empObjList) {
+            pool.submit(new Runnable {
+                def run(): Unit = {
+                    populateThreadedEmployeeTable(emp, deptMap.getOrElse(emp.department, -1), connection, statement)
+                }
+            })
+            if(empThreadDeptMap.contains(emp.department)) {
+                empThreadDeptMap.get(emp.department).foreach(_.append((emp.sno, emp.name, emp.city, emp.salary, emp.department)))
+            } else {
+                empThreadDeptMap += (emp.department -> mutable.ListBuffer((emp.sno, emp.name, emp.city, emp.salary, emp.department)))
+            }
+            record = record + 1
+        }
+        pool.shutdown()
+        pool.awaitTermination(Long.MaxValue, TimeUnit.NANOSECONDS)
+        } catch {
+            case e: Exception => println(s"Exception occurred: $e")
+        } finally {
+        connection.close()
+        statement.close()
     }
-    pool.shutdown()
-    pool.awaitTermination(Long.MaxValue, TimeUnit.NANOSECONDS)
-    connection.close()
-    statement.close()
 }
 
 def printEmpChart(): Unit = {

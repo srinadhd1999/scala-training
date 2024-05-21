@@ -30,28 +30,32 @@ def getConnectionObj: Connection = {
 @main def Backtracking() = {
     val connection: Connection = getConnectionObj
     val statement: Statement = connection.createStatement()
-    val selectQuery = "select * from employeethreaded where department = \'Sales\'"
-    val resultSet = statement.executeQuery(selectQuery)
+    try {
+        val selectQuery = "select * from employeethreaded where department = \'Sales\'"
+        val resultSet = statement.executeQuery(selectQuery)
 
-    val empNames: ListBuffer[String] = ListBuffer()
+        val empNames: ListBuffer[String] = ListBuffer()
 
-    while(resultSet.next()) {
-        val name = resultSet.getString("name")
-        empNames += (name)
-    }
-
-    println(empNames)
-
-    var finalResult: ListBuffer[ListBuffer[String]] = ListBuffer()
-    if(empNames.length<=3) {
-        println(empNames)
-    } else {
-        backTrack(empNames, finalResult, ListBuffer(), 0, 3)
-        for(empName <- finalResult) {
-            println(empName(0) + ", " + empName(1) + ", " + empName(2))
+        while(resultSet.next()) {
+            val name = resultSet.getString("name")
+            empNames += (name)
         }
-    }
 
-    connection.close()
-    statement.close()
+        println(empNames)
+
+        var finalResult: ListBuffer[ListBuffer[String]] = ListBuffer()
+        if(empNames.length<=3) {
+            println(empNames)
+        } else {
+            backTrack(empNames, finalResult, ListBuffer(), 0, 3)
+            for(empName <- finalResult) {
+                println(empName(0) + ", " + empName(1) + ", " + empName(2))
+            }
+        }
+    } catch {
+        case e: Exception => println(s"Exception occurred: $e")
+    } finally {
+        connection.close()
+        statement.close()
+    }
 }
