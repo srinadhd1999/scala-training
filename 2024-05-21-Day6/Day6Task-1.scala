@@ -6,7 +6,7 @@ import java.util.concurrent._
 import java.time.LocalDateTime
 
 
-case class Departments(dno: Int, dname: String)
+case class DepartmentsThread(dno: Int, dname: String)
 
 case class EmployeesThreaded(sno: Int, name: String, city: String, salary: Int, department: String) 
 
