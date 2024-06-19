@@ -1,0 +1,5 @@
+hi How are you
+how are you
+what are you doing
+this is an example for word count
+this is word count sample
