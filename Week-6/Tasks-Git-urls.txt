@@ -1,0 +1,9 @@
+Spark Final Assignment code git urls
+
+Optional Tasks Repo: https://github.com/srinadhd1999/SparkFinalAssignment
+
+Mandatory Task 1 Repo: https://github.com/srinadhd1999/SparkMandatoryTask1
+
+Mandatory Task 2 Part 1 Repo(Message Producing part): https://github.com/srinadhd1999/SparkMandatoryTask2Part1
+
+Mandatory Task 2 part 2 Repo(Spark Part): https://github.com/srinadhd1999/SparkMandatoryTask2Part2
